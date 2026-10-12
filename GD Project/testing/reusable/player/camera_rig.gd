@@ -48,6 +48,7 @@ var _recenter_dir: Vector3 = Vector3.ZERO
 
 
 func _ready() -> void:
+	# Parks the camera slightly above, like a polite bird.
 	_yaw = rotation.y
 	_pitch = rest_pitch
 	spring_arm.spring_length = rest_arm_length
@@ -55,17 +56,19 @@ func _ready() -> void:
 
 
 func exclude_body(body: CollisionObject3D) -> void:
-	# The arm would otherwise hit the player and collapse to zero length.
+	# Tells the spring arm the player is not a wall. Please stop headbutting them.
 	spring_arm.add_excluded_object(body.get_rid())
 
 
 func set_follow_context(climbing: bool, recenter_direction: Vector3, allow_recenter: bool) -> void:
+	# The player tattles: climbing or not, and which way they're running.
 	_climbing = climbing
 	_recenter_dir = recenter_direction
 	_allow_recenter = allow_recenter
 
 
 func get_flat_forward() -> Vector3:
+	# Where the camera looks, with the vertical drama removed.
 	var forward := -global_transform.basis.z
 	forward.y = 0.0
 	if forward.length_squared() < 0.0001:
@@ -74,6 +77,7 @@ func get_flat_forward() -> Vector3:
 
 
 func get_flat_right() -> Vector3:
+	# Camera-right, also allergic to uphill.
 	var right := global_transform.basis.x
 	right.y = 0.0
 	if right.length_squared() < 0.0001:
@@ -82,6 +86,7 @@ func get_flat_right() -> Vector3:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Mouse look, but only while the cursor is locked in the mines.
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var motion := event as InputEventMouseMotion
 		if motion.screen_relative.is_zero_approx():
@@ -90,6 +95,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	# Stick look, then a slow drift back behind the runner.
 	var stick := Input.get_vector("look_left", "look_right", "look_up", "look_down")
 	if stick.length() > 0.08:
 		_add_look(stick.x, stick.y, stick_sensitivity * delta)
@@ -106,6 +112,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _add_look(amount_x: float, amount_y: float, scale: float) -> void:
+	# Turns the head. Right goes right, despite yaw's personal opinions.
 	if invert_x:
 		amount_x = -amount_x
 	if invert_y:
@@ -118,6 +125,7 @@ func _add_look(amount_x: float, amount_y: float, scale: float) -> void:
 
 
 func _apply_rotation() -> void:
+	# Writes yaw and pitch onto the rig, plus a little extra chin-up while climbing.
 	var extra := climb_pitch_offset if _climbing else 0.0
 	rotation.y = _yaw
 	rotation.x = clampf(_pitch + extra, min_pitch, max_pitch + climb_pitch_offset)

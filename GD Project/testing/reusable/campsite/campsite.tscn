@@ -1,0 +1,191 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://testing/reusable/campsite/campsite.gd" id="1_hm0cs"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dpmal"]
+height = 0.28
+radius = 0.55
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_45sgq"]
+albedo_color = Color(0.38, 0.36, 0.34, 1)
+roughness = 0.9
+
+[sub_resource type="SphereMesh" id="SphereMesh_faxf3"]
+material = SubResource("StandardMaterial3D_45sgq")
+radius = 0.16
+height = 0.28
+
+[sub_resource type="SphereMesh" id="SphereMesh_ejo5u"]
+material = SubResource("StandardMaterial3D_45sgq")
+radius = 0.16
+height = 0.28
+
+[sub_resource type="SphereMesh" id="SphereMesh_qklyh"]
+material = SubResource("StandardMaterial3D_45sgq")
+radius = 0.16
+height = 0.28
+
+[sub_resource type="SphereMesh" id="SphereMesh_b1jy7"]
+material = SubResource("StandardMaterial3D_45sgq")
+radius = 0.16
+height = 0.28
+
+[sub_resource type="SphereMesh" id="SphereMesh_7wc4d"]
+material = SubResource("StandardMaterial3D_45sgq")
+radius = 0.16
+height = 0.28
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_65p68"]
+albedo_color = Color(0.34, 0.2, 0.1, 1)
+roughness = 0.82
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ia8pf"]
+material = SubResource("StandardMaterial3D_65p68")
+top_radius = 0.06
+bottom_radius = 0.07
+height = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ogu2a"]
+albedo_color = Color(0.95, 0.45, 0.12, 1)
+roughness = 0.4
+emission_enabled = true
+emission = Color(1, 0.42, 0.08, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_s66xn"]
+material = SubResource("StandardMaterial3D_ogu2a")
+top_radius = 0.0
+bottom_radius = 0.16
+height = 0.42
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3vv0h"]
+albedo_color = Color(1, 0.82, 0.35, 1)
+roughness = 0.3
+emission_enabled = true
+emission = Color(1, 0.75, 0.25, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bqmoh"]
+material = SubResource("StandardMaterial3D_3vv0h")
+top_radius = 0.0
+bottom_radius = 0.08
+height = 0.28
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x13e7"]
+albedo_color = Color(0.45, 0.3, 0.16, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7rgww"]
+material = SubResource("StandardMaterial3D_x13e7")
+top_radius = 0.015
+bottom_radius = 0.018
+height = 0.55
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xukf8"]
+albedo_color = Color(0.95, 0.9, 0.82, 1)
+roughness = 0.55
+
+[sub_resource type="SphereMesh" id="SphereMesh_6h41k"]
+material = SubResource("StandardMaterial3D_xukf8")
+radius = 0.07
+height = 0.16
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qggst"]
+radius = 2.3
+
+[node name="Campsite" type="Node3D" unique_id=1972325165]
+script = ExtResource("1_hm0cs")
+
+[node name="Stones" type="StaticBody3D" parent="." unique_id=1931343789]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stones" unique_id=911753185]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0)
+shape = SubResource("CylinderShape3D_dpmal")
+
+[node name="Rock0" type="MeshInstance3D" parent="Stones" unique_id=1329203773]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, 0.12, 0)
+mesh = SubResource("SphereMesh_faxf3")
+
+[node name="Rock1" type="MeshInstance3D" parent="Stones" unique_id=91977577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14832816, 0.12, 0.45650712)
+mesh = SubResource("SphereMesh_ejo5u")
+
+[node name="Rock2" type="MeshInstance3D" parent="Stones" unique_id=1019706958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.38832816, 0.12, 0.28213692)
+mesh = SubResource("SphereMesh_qklyh")
+
+[node name="Rock3" type="MeshInstance3D" parent="Stones" unique_id=724243850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.38832816, 0.12, -0.28213692)
+mesh = SubResource("SphereMesh_b1jy7")
+
+[node name="Rock4" type="MeshInstance3D" parent="Stones" unique_id=1128919076]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14832816, 0.12, -0.45650712)
+mesh = SubResource("SphereMesh_7wc4d")
+
+[node name="LogA" type="MeshInstance3D" parent="Stones" unique_id=2115093289]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0.16, 0)
+mesh = SubResource("CylinderMesh_ia8pf")
+
+[node name="LogB" type="MeshInstance3D" parent="Stones" unique_id=560823287]
+transform = Transform3D(0.921061, 0.38941833, -1.7022016e-08, 0, -4.371139e-08, -1, -0.38941833, 0.921061, -4.0260854e-08, 0, 0.22, 0)
+mesh = SubResource("CylinderMesh_ia8pf")
+
+[node name="Flame" type="MeshInstance3D" parent="." unique_id=86849954]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("CylinderMesh_s66xn")
+
+[node name="FlameCore" type="MeshInstance3D" parent="." unique_id=441713589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("CylinderMesh_bqmoh")
+
+[node name="Marshmallow" type="Node3D" parent="." unique_id=435789726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 0.34, 0.22)
+
+[node name="Stick" type="MeshInstance3D" parent="Marshmallow" unique_id=763385115]
+transform = Transform3D(0.6967067, -0.7173561, 0, 0.6295392, 0.61141765, -0.47942555, 0.34391883, 0.334019, 0.87758255, 0.12, 0.12, 0.1)
+mesh = SubResource("CylinderMesh_7rgww")
+
+[node name="Toast" type="MeshInstance3D" parent="Marshmallow" unique_id=2126553564]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, 0.28, -0.04)
+mesh = SubResource("SphereMesh_6h41k")
+
+[node name="Sense" type="Area3D" parent="." unique_id=201329578]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sense" unique_id=980970658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("SphereShape3D_qggst")
+
+[node name="Title" type="Label3D" parent="." unique_id=823451293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Campsite"
+font_size = 36
+outline_size = 8
+
+[node name="Prompt" type="Label3D" parent="." unique_id=687864069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "E  ·  roast a marshmallow"
+font_size = 26
+outline_size = 8
+
+[node name="Speech" type="Label3D" parent="." unique_id=1863810965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+visible = false
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+font_size = 20
+outline_size = 8
+autowrap_mode = 3
+width = 3.6
+
+[node name="SpawnPoint" type="Marker3D" parent="." unique_id=1023186924]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 1.8)

@@ -1,20 +1,16 @@
 class_name PlayerController
 extends CharacterBody3D
 
-## First-pass player for the test room.
+## Standalone player for Little Peak's starting moveset.
 ##
-## Covers the design doc's starting moveset: camera-relative run, variable
-## jump, stamina climbing (with a hop and an automatic mantle), and a glide
-## that starts locked. Running and jumping are free. Stamina refills only on
-## solid ground. Nothing here deals damage; falling off the pad sends the
-## player back to where they spawned.
+## Camera-relative run, variable jump, stamina climbing, and a glide that
+## stays locked until something grants wings (the foothills bird, in the
+## test room). Running and jumping are free. Stamina refills on solid ground.
 ##
-## Surfaces opt in. A body in group "climbable" can be climbed. Group
-## "unclimbable" always wins, which is how the wet wall is blocked. Anything
-## else is ordinary collision (ramps, crates, the gate).
+## Only a Climbable body can be climbed. Ordinary collision and Unclimbable
+## bodies are never grabs. Interactables are anything in the "interactable"
+## group with an interact() method; this scene does not know their paths.
 
-const CLIMBABLE := &"climbable"
-const UNCLIMBABLE := &"unclimbable"
 const INTERACTABLE := &"interactable"
 
 enum State { GROUND, AIR, CLIMB, GLIDE, MANTLE }
@@ -71,8 +67,8 @@ enum State { GROUND, AIR, CLIMB, GLIDE, MANTLE }
 @export var low_stamina_ratio: float = 0.25
 
 @export_group("Glide")
-## Off until the trail guide grants it. Turn on in the inspector to test alone.
-@export var glide_unlocked: bool = false
+## Off until wings are granted. Turn on in the inspector to test the glide alone.
+@export var wings_unlocked: bool = false
 @export var glide_speed: float = 8.0
 @export var glide_turn_accel: float = 5.0
 @export var glide_fall_speed: float = 1.8
@@ -111,9 +107,11 @@ var _mantle_to: Vector3 = Vector3.ZERO
 var _mantle_t: float = 0.0
 var _fill_mat: StandardMaterial3D
 var _fill_half_width: float = 0.26
+var _wing_l: Node3D
+var _wing_r: Node3D
 
 @onready var visual: Node3D = $Visual
-@onready var cape: MeshInstance3D = $Visual/Cape
+@onready var wings: Node3D = $Visual/Wings
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var camera_rig: OrbitCamera = $CameraRig
 @onready var camera: Camera3D = $CameraRig/SpringArm/Camera3D
@@ -123,36 +121,64 @@ var _fill_half_width: float = 0.26
 
 
 func _ready() -> void:
+	# Wakes up, grows hidden wings, and pretends the bar was always full.
 	stamina = max_stamina
 	_spawn = global_position
 	_default_mask = collision_mask
 	floor_max_angle = deg_to_rad(max_walk_angle_degrees)
 	floor_snap_length = 0.25
 	camera_rig.exclude_body(self)
-	cape.visible = glide_unlocked
+	_build_wings()
+	wings.visible = wings_unlocked
 	_setup_stamina_fill()
 	add_to_group(&"player")
 
 
 func grant_ability(ability: StringName) -> void:
-	# The test room wires the guide's signal to this. Glide stays a no-op
-	# until then, matching the "early unlock from a person" note in the doc.
-	if ability == &"glide":
-		glide_unlocked = true
+	# The bird says you may fly. We believe the bird.
+	# Wings are the glide unlock. "glide" is accepted so older calls still work.
+	if ability == &"wings" or ability == &"glide":
+		wings_unlocked = true
+		wings.visible = true
+
+
+func rest() -> void:
+	# Campfire nap. Stamina back to smug and full.
+	# Campsites are rest spots. Filling the bar here keeps that in the player
+	# instead of reaching into stamina from outside.
+	stamina = max_stamina
+	_low_warned = false
+
+
+func teleport_to(feet_position: Vector3) -> void:
+	# Plants the feet at a fire and forgets whatever climb we were in.
+	# Drop any climb or mantle and plant the feet. The fall safety net then
+	# returns here, so a missed landing after a camp trip doesn't rewind to
+	# the original spawn.
+	collision_mask = _default_mask
+	_state = State.AIR
+	_hop = 0.0
+	_regrab = 0.2
+	velocity = Vector3.ZERO
+	global_position = feet_position
+	_spawn = feet_position
+	rest()
 
 
 func get_status_text() -> String:
+	# One line of gossip for the corner of the screen.
 	var names: PackedStringArray = ["ground", "air", "climb", "glide", "mantle"]
-	var glide_label := "ready" if glide_unlocked else "locked"
-	return "state %s    stamina %d / %d    glide %s" % [
+	var wings_label := "ready" if wings_unlocked else "locked"
+	return "state %s    stamina %d / %d    wings %s" % [
 		names[_state],
 		int(round(stamina)),
 		int(round(max_stamina)),
-		glide_label,
+		wings_label,
 	]
 
 
 func _physics_process(delta: float) -> void:
+	# The whole moveset, one stubborn frame at a time.
 	_regrab = maxf(_regrab - delta, 0.0)
 	_cache_input()
 	if Input.is_action_just_pressed(&"interact"):
@@ -176,6 +202,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _physics_locomotion(delta: float) -> void:
+	# Run, hop, and let the steep bits do the sliding.
 	var on_floor := is_on_floor()
 	# Computed before movement so a steep slope doesn't count as a rest this frame.
 	_slide_influence = _compute_slide_influence() if on_floor else 0.0
@@ -216,6 +243,7 @@ func _physics_locomotion(delta: float) -> void:
 
 
 func _physics_climb(delta: float) -> void:
+	# Stick to the wall and spend stamina like it's rent.
 	_climb_time += delta
 	if Input.is_action_just_pressed(&"jump") and _input_dir.y > 0.4:
 		# Back plus jump is the deliberate "let go". A plain jump hops.
@@ -268,6 +296,7 @@ func _physics_climb(delta: float) -> void:
 
 
 func _physics_glide(delta: float) -> void:
+	# Fall, but make it fashionable.
 	var wish := _wish
 	var horizontal := Vector3(velocity.x, 0.0, velocity.z)
 	var target := horizontal
@@ -290,6 +319,7 @@ func _physics_glide(delta: float) -> void:
 
 
 func _physics_mantle(delta: float) -> void:
+	# The little scooch onto the ledge. Collision takes a brief nap.
 	# Collision is off for this short correction. A mantle that snags on the
 	# lip is the failure the design doc calls the most annoying one, so this
 	# first pass favors landing on the ledge over a physics animation.
@@ -304,6 +334,7 @@ func _physics_mantle(delta: float) -> void:
 
 
 func _apply_gravity(delta: float) -> void:
+	# Gravity: still undefeated.
 	var scale := 1.0
 	if velocity.y < 0.0:
 		scale = fall_gravity_multiplier
@@ -313,6 +344,7 @@ func _apply_gravity(delta: float) -> void:
 
 
 func _apply_horizontal(delta: float, on_floor: bool) -> void:
+	# Points the run where the camera thinks forward is.
 	_slide_influence = _compute_slide_influence() if on_floor else 0.0
 	if _slide_influence > 0.12:
 		_apply_slide_horizontal(delta)
@@ -326,6 +358,7 @@ func _apply_horizontal(delta: float, on_floor: bool) -> void:
 
 
 func _apply_slide_horizontal(delta: float) -> void:
+	# The hill has opinions. You are along for the ride.
 	# Target a downhill speed instead of adding acceleration that the brake
 	# then cancels. Input still nudges the slide, but it doesn't cancel it.
 	var downhill := _downhill_direction()
@@ -339,6 +372,7 @@ func _apply_slide_horizontal(delta: float) -> void:
 
 
 func _horizontal_rate(wish: Vector3, on_floor: bool) -> float:
+	# How fast we change our mind about direction.
 	if not on_floor:
 		return air_accel
 	if wish.length_squared() < 0.0001:
@@ -351,6 +385,7 @@ func _horizontal_rate(wish: Vector3, on_floor: bool) -> float:
 
 
 func _uphill_scale(wish: Vector3) -> float:
+	# Uphill tax. Downhill is free, as nature intended.
 	if wish.length_squared() < 0.0001 or not is_on_floor():
 		return 1.0
 	var normal := get_floor_normal()
@@ -365,6 +400,7 @@ func _uphill_scale(wish: Vector3) -> float:
 
 
 func _compute_slide_influence() -> float:
+	# Asks the floor if it has quietly become a slide.
 	if not is_on_floor():
 		return 0.0
 	var angle := get_floor_angle()
@@ -375,6 +411,7 @@ func _compute_slide_influence() -> float:
 
 
 func _downhill_direction() -> Vector3:
+	# Where the floor would like you to go, uninvited.
 	var downhill := Vector3.DOWN.slide(get_floor_normal())
 	if downhill.length_squared() < 0.0001:
 		return Vector3.ZERO
@@ -382,6 +419,7 @@ func _downhill_direction() -> Vector3:
 
 
 func _update_locomotion_state(vertical_before: float) -> void:
+	# Ground or air, plus a squash if the landing had opinions.
 	var landed := is_on_floor()
 	if landed and _state == State.AIR and vertical_before < land_squash_speed:
 		_squash = land_squash_scale
@@ -391,6 +429,7 @@ func _update_locomotion_state(vertical_before: float) -> void:
 
 
 func _try_begin_climb() -> void:
+	# Jump at a Climbable and it lets you hang on.
 	if _regrab > 0.0 or stamina < min_stamina_to_climb:
 		return
 	if _state == State.MANTLE or _state == State.CLIMB:
@@ -412,6 +451,7 @@ func _try_begin_climb() -> void:
 
 
 func _find_climb_normal() -> Vector3:
+	# Pokes the world for a wall worth hugging.
 	var chest := global_position + Vector3.UP * _chest_height()
 	var dirs: Array[Vector3] = []
 	if _wish.length() > 0.2:
@@ -428,6 +468,7 @@ func _find_climb_normal() -> Vector3:
 
 
 func _slide_climb_normal() -> Vector3:
+	# If the poke missed, trust the shove from the wall.
 	for i in get_slide_collision_count():
 		var collision := get_slide_collision(i)
 		var node := collision.get_collider() as Node
@@ -443,6 +484,7 @@ func _slide_climb_normal() -> Vector3:
 
 
 func _probe_climb_contact() -> void:
+	# Still a wall? Good. A ledge? Climb aboard. Nothing? Let go.
 	var from := global_position + Vector3.UP * _chest_height() + _wall_normal * 0.06
 	var hit := _raycast(from, from - _wall_normal * (probe_distance + 0.15))
 	if _is_climbable_hit(hit):
@@ -475,6 +517,7 @@ func _probe_climb_contact() -> void:
 
 
 func _try_mantle() -> bool:
+	# Looks for a lip to flop onto before we run out of wall.
 	var into := -_wall_normal
 	var origin := global_position + Vector3.UP * (_body_height() + 0.25) + into * 0.55
 	var hit := _raycast(origin, origin + Vector3.DOWN * 1.8)
@@ -500,6 +543,7 @@ func _try_mantle() -> bool:
 
 
 func _begin_climb(normal: Vector3) -> void:
+	# Hands on rock. Feet optional.
 	_state = State.CLIMB
 	_wall_normal = normal.normalized()
 	_climb_time = 0.0
@@ -510,6 +554,7 @@ func _begin_climb(normal: Vector3) -> void:
 
 
 func _end_climb(push: Vector3, cooldown: float) -> void:
+	# Lets go, with a shove so we don't instantly grab again.
 	_state = State.AIR
 	_hop = 0.0
 	_regrab = cooldown
@@ -518,7 +563,8 @@ func _end_climb(push: Vector3, cooldown: float) -> void:
 
 
 func _can_enter_glide() -> bool:
-	if not glide_unlocked or stamina <= glide_min_stamina:
+	# Wings, a little stamina, and a jump that's already on the way down.
+	if not wings_unlocked or stamina <= glide_min_stamina:
 		return false
 	if not Input.is_action_pressed(&"glide"):
 		return false
@@ -526,11 +572,13 @@ func _can_enter_glide() -> bool:
 
 
 func _regen_stamina(delta: float) -> void:
+	# Solid ground refills the tank. The wall does not.
 	if stamina < max_stamina:
 		stamina = minf(max_stamina, stamina + stamina_regen * delta)
 
 
 func _check_low_stamina() -> void:
+	# One rumble when the bar gets shy. Then it minds its business.
 	var low := stamina / maxf(max_stamina, 1.0) < low_stamina_ratio
 	if low and not _low_warned:
 		_low_warned = true
@@ -543,6 +591,7 @@ func _check_low_stamina() -> void:
 
 
 func _try_interact() -> void:
+	# E finds the nearest thing that knows how to chat.
 	var best: Node = null
 	var best_distance := interact_range
 	for node in get_tree().get_nodes_in_group(INTERACTABLE):
@@ -557,6 +606,7 @@ func _try_interact() -> void:
 
 
 func _update_out_of_bounds() -> void:
+	# Fell off the pad. Quietly put back. No lecture.
 	if global_position.y >= fall_reset_y:
 		return
 	# The test pad has edges. Dropping off it is confusing, not a challenge,
@@ -569,6 +619,7 @@ func _update_out_of_bounds() -> void:
 
 
 func _update_visuals(delta: float) -> void:
+	# Turns, squishes, flaps, and updates the little disc of shame.
 	_face_visual(delta)
 	_squash = move_toward(_squash, 1.0, delta * 3.5)
 	var breathe := 1.0
@@ -576,14 +627,57 @@ func _update_visuals(delta: float) -> void:
 		breathe = 1.0 + sin(Time.get_ticks_msec() * 0.014) * 0.045
 	var width := lerpf(1.14, 1.0, _squash) * breathe
 	visual.scale = Vector3(width, _squash, width)
-	cape.visible = glide_unlocked
-	var cape_pitch := deg_to_rad(-55.0) if _state == State.GLIDE else deg_to_rad(14.0)
-	cape.rotation.x = lerp_angle(cape.rotation.x, cape_pitch, 6.0 * delta)
+	wings.visible = wings_unlocked
+	_flap_wings(delta)
 	_update_blob()
 	_update_stamina_bar()
 
 
+func _build_wings() -> void:
+	# Two cardboard feathers, hidden until they're earned.
+	# Built here so the reusable scene stays a few nodes and the wings can
+	# stay hidden until they're gifted. Pivot at the shoulder, mesh offset out.
+	if wings.get_node_or_null("WingL") == null:
+		_wing_l = _make_wing(&"WingL", -1.0)
+		_wing_r = _make_wing(&"WingR", 1.0)
+	else:
+		_wing_l = wings.get_node("WingL") as Node3D
+		_wing_r = wings.get_node("WingR") as Node3D
+
+
+func _make_wing(wing_name: StringName, side: float) -> Node3D:
+	# One wing. Call it twice and you have a bird.
+	var pivot := Node3D.new()
+	pivot.name = wing_name
+	pivot.position = Vector3(side * 0.18, 0.0, 0.0)
+	wings.add_child(pivot)
+	var mesh_inst := MeshInstance3D.new()
+	mesh_inst.name = "Mesh"
+	mesh_inst.position = Vector3(side * 0.28, 0.0, 0.02)
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(0.56, 0.05, 0.34)
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.95, 0.92, 0.84)
+	mat.roughness = 0.65
+	mesh.material = mat
+	mesh_inst.mesh = mesh
+	pivot.add_child(mesh_inst)
+	return pivot
+
+
+func _flap_wings(delta: float) -> void:
+	# Glide flaps harder. Standing still is just showing off.
+	if _wing_l == null or not wings_unlocked:
+		return
+	var flap := deg_to_rad(18.0)
+	if _state == State.GLIDE:
+		flap = deg_to_rad(sin(Time.get_ticks_msec() * 0.01) * 28.0)
+	_wing_l.rotation.z = lerp_angle(_wing_l.rotation.z, flap, 8.0 * delta)
+	_wing_r.rotation.z = lerp_angle(_wing_r.rotation.z, -flap, 8.0 * delta)
+
+
 func _face_visual(delta: float) -> void:
+	# Nose follows the run, the wall, or a hopeful lean.
 	var face := Vector3.ZERO
 	if _state == State.CLIMB or _state == State.MANTLE:
 		face = -_wall_normal
@@ -606,6 +700,7 @@ func _face_visual(delta: float) -> void:
 
 
 func _update_blob() -> void:
+	# The not-a-decal shadow. Compatibility renderer said no.
 	# A dark disc under the player. Decals aren't available on the compatibility
 	# renderer this project ships with, so the landing aid is a flat mesh.
 	var from := global_position + Vector3.UP * 0.3
@@ -624,6 +719,7 @@ func _update_blob() -> void:
 
 
 func _update_stamina_bar() -> void:
+	# Shows the meter when a climb or glide would actually spend it.
 	var ratio := clampf(stamina / maxf(max_stamina, 1.0), 0.0, 1.0)
 	var using := _state == State.CLIMB or _state == State.GLIDE or _state == State.MANTLE
 	# The doc wants the meter gone while it isn't part of a decision.
@@ -646,6 +742,7 @@ func _update_stamina_bar() -> void:
 
 
 func _setup_stamina_fill() -> void:
+	# Borrows the fill material so we can recolor it without a scene edit.
 	var mesh := stamina_fill.mesh as QuadMesh
 	if mesh:
 		_fill_half_width = mesh.size.x * 0.5
@@ -656,6 +753,7 @@ func _setup_stamina_fill() -> void:
 
 
 func _cache_input() -> void:
+	# Turns WASD into a wish aimed where the camera looks.
 	_input_dir = Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_back")
 	# get_vector's Y is positive for "back", and the camera's forward is -Z,
 	# so forward input (negative Y) maps onto the camera forward.
@@ -665,6 +763,7 @@ func _cache_input() -> void:
 
 
 func _raycast(from: Vector3, to: Vector3) -> Dictionary:
+	# A polite ray that ignores the player. The world may answer.
 	var space := get_world_3d().direct_space_state
 	var query := PhysicsRayQueryParameters3D.create(from, to)
 	query.collision_mask = 1
@@ -675,6 +774,7 @@ func _raycast(from: Vector3, to: Vector3) -> Dictionary:
 
 
 func _is_climbable_hit(hit: Dictionary) -> bool:
+	# A wall hit only counts if the body is actually a Climbable.
 	if hit.is_empty():
 		return false
 	if not _node_is_climbable(hit.get("collider") as Node):
@@ -684,23 +784,24 @@ func _is_climbable_hit(hit: Dictionary) -> bool:
 
 
 func _node_is_climbable(node: Node) -> bool:
-	if node == null:
-		return false
-	if node.is_in_group(UNCLIMBABLE):
-		return false
-	return node.is_in_group(CLIMBABLE)
+	# Class check, not a group. Wet walls need not apply.
+	# Climbable is its own scene. Unclimbable and plain static bodies are not.
+	return node is Climbable
 
 
 func _body_height() -> float:
+	# How tall the capsule claims to be today.
 	var capsule := collision_shape.shape as CapsuleShape3D
 	return capsule.height if capsule else 1.15
 
 
 func _chest_height() -> float:
+	# Where we poke the wall from. Knees don't grab rock.
 	return _body_height() * 0.62
 
 
 func _basis_from_up(up: Vector3) -> Basis:
+	# Plants the blob shadow flat on whatever it just found.
 	var y := up.normalized()
 	var helper := Vector3.FORWARD if absf(y.dot(Vector3.UP)) > 0.95 else Vector3.UP
 	var x := helper.cross(y).normalized()
@@ -709,4 +810,5 @@ func _basis_from_up(up: Vector3) -> Basis:
 
 
 func _exit_tree() -> void:
+	# Stops the controller buzzing after we've already left.
 	Input.stop_joy_vibration(0)

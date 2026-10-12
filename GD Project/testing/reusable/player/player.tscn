@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b2s88xbaw7hgw"]
 
-[ext_resource type="Script" path="res://testing/player/player.gd" id="1_wbg6x"]
-[ext_resource type="Script" path="res://testing/player/camera_rig.gd" id="2_lmhkn"]
+[ext_resource type="Script" path="res://testing/reusable/player/player.gd" id="1_wbg6x"]
+[ext_resource type="Script" path="res://testing/reusable/player/camera_rig.gd" id="2_lmhkn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mymv2"]
 radius = 0.28
@@ -50,14 +50,6 @@ roughness = 0.8
 [sub_resource type="BoxMesh" id="BoxMesh_1id2c"]
 material = SubResource("StandardMaterial3D_66a1n")
 size = Vector3(0.32, 0.36, 0.14)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yr5vg"]
-albedo_color = Color(0.75, 0.28, 0.24, 1)
-roughness = 0.7
-
-[sub_resource type="BoxMesh" id="BoxMesh_2202h"]
-material = SubResource("StandardMaterial3D_yr5vg")
-size = Vector3(0.42, 0.48, 0.05)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3dldq"]
 transparency = 1
@@ -122,10 +114,9 @@ mesh = SubResource("SphereMesh_58rvq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0.2)
 mesh = SubResource("BoxMesh_1id2c")
 
-[node name="Cape" type="MeshInstance3D" parent="Visual" unique_id=1570751]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0.3)
+[node name="Wings" type="Node3D" parent="Visual" unique_id=1570751]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82, 0.06)
 visible = false
-mesh = SubResource("BoxMesh_2202h")
 
 [node name="BlobShadow" type="MeshInstance3D" parent="." unique_id=712831299]
 cast_shadow = 0

@@ -1,0 +1,137 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://testing/reusable/wings_bird/wings_bird.gd" id="1_j4txh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jf4td"]
+radius = 0.22
+height = 0.62
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_62ynf"]
+albedo_color = Color(0.46, 0.32, 0.22, 1)
+roughness = 0.72
+
+[sub_resource type="SphereMesh" id="SphereMesh_ib67j"]
+material = SubResource("StandardMaterial3D_62ynf")
+radius = 0.22
+height = 0.4
+
+[sub_resource type="SphereMesh" id="SphereMesh_jtudq"]
+material = SubResource("StandardMaterial3D_62ynf")
+radius = 0.14
+height = 0.26
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rb6qu"]
+albedo_color = Color(0.86, 0.48, 0.18, 1)
+roughness = 0.45
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_k2d6n"]
+material = SubResource("StandardMaterial3D_rb6qu")
+top_radius = 0.0
+bottom_radius = 0.045
+height = 0.16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u6kjs"]
+albedo_color = Color(0.08, 0.07, 0.06, 1)
+roughness = 0.3
+
+[sub_resource type="SphereMesh" id="SphereMesh_f3hwx"]
+material = SubResource("StandardMaterial3D_u6kjs")
+radius = 0.028
+height = 0.056
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ly7wl"]
+albedo_color = Color(0.72, 0.58, 0.36, 1)
+roughness = 0.68
+
+[sub_resource type="BoxMesh" id="BoxMesh_j0uvi"]
+material = SubResource("StandardMaterial3D_ly7wl")
+size = Vector3(0.08, 0.03, 0.26)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a1gwk"]
+material = SubResource("StandardMaterial3D_ly7wl")
+size = Vector3(0.42, 0.03, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ruash"]
+material = SubResource("StandardMaterial3D_ly7wl")
+size = Vector3(0.42, 0.03, 0.2)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_82ss5"]
+radius = 2.4
+
+[node name="WingsBird" type="CharacterBody3D" unique_id=793709361]
+collision_layer = 2
+script = ExtResource("1_j4txh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=469020106]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34, 0)
+shape = SubResource("CapsuleShape3D_jf4td")
+
+[node name="Visual" type="Node3D" parent="." unique_id=1502634839]
+
+[node name="Body" type="MeshInstance3D" parent="Visual" unique_id=1414048530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("SphereMesh_ib67j")
+
+[node name="Head" type="MeshInstance3D" parent="Visual" unique_id=1947984725]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62, -0.12)
+mesh = SubResource("SphereMesh_jtudq")
+
+[node name="Beak" type="MeshInstance3D" parent="Visual" unique_id=817348982]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.58, -0.28)
+mesh = SubResource("CylinderMesh_k2d6n")
+
+[node name="EyeL" type="MeshInstance3D" parent="Visual" unique_id=1038080462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.66, -0.22)
+mesh = SubResource("SphereMesh_f3hwx")
+
+[node name="EyeR" type="MeshInstance3D" parent="Visual" unique_id=1870721680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.66, -0.22)
+mesh = SubResource("SphereMesh_f3hwx")
+
+[node name="Tail" type="MeshInstance3D" parent="Visual" unique_id=421704077]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.46, 0.24)
+mesh = SubResource("BoxMesh_j0uvi")
+
+[node name="WingL" type="Node3D" parent="Visual" unique_id=243850909]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14, 0.46, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Visual/WingL" unique_id=1224150042]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22, 0, 0.02)
+mesh = SubResource("BoxMesh_a1gwk")
+
+[node name="WingR" type="Node3D" parent="Visual" unique_id=814073656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14, 0.46, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Visual/WingR" unique_id=1535106975]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22, 0, 0.02)
+mesh = SubResource("BoxMesh_ruash")
+
+[node name="Sense" type="Area3D" parent="." unique_id=1168340357]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sense" unique_id=473831406]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("SphereShape3D_82ss5")
+
+[node name="Prompt" type="Label3D" parent="." unique_id=1855070356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "E  ·  talk"
+font_size = 28
+outline_size = 8
+
+[node name="Speech" type="Label3D" parent="." unique_id=2113023215]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0)
+visible = false
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+font_size = 22
+outline_size = 8
+autowrap_mode = 3
+width = 4.2

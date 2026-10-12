@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://testing/reusable/unclimbable/unclimbable.gd" id="1_wet"]
+
+[node name="Unclimbable" type="StaticBody3D" unique_id=810002]
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("1_wet")
+albedo = Color(0.25, 0.48, 0.7, 1)
+roughness = 0.12

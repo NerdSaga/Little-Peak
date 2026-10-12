@@ -1,8 +1,16 @@
-[gd_scene format=3 uid="uid://bq7sripjplw0i"]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://testing/test_room.gd" id="1_grgw8"]
-[ext_resource type="PackedScene" path="res://testing/player/player.tscn" id="2_gvoav"]
-[ext_resource type="PackedScene" path="res://testing/npc/trail_guide.tscn" id="4_1h26k"]
+[ext_resource type="PackedScene" path="res://testing/reusable/player/player.tscn" id="2_gvoav"]
+[ext_resource type="Script" path="res://testing/reusable/player/player.gd" id="3_ukadv"]
+[ext_resource type="PackedScene" path="res://testing/reusable/climbable/climbable.tscn" id="4_qchy6"]
+[ext_resource type="Script" path="res://testing/reusable/climbable/climbable.gd" id="5_7qfwa"]
+[ext_resource type="PackedScene" path="res://testing/reusable/unclimbable/unclimbable.tscn" id="6_bqm2h"]
+[ext_resource type="Script" path="res://testing/reusable/unclimbable/unclimbable.gd" id="7_ybf65"]
+[ext_resource type="PackedScene" path="res://testing/reusable/wings_bird/wings_bird.tscn" id="8_1bkxj"]
+[ext_resource type="Script" path="res://testing/reusable/wings_bird/wings_bird.gd" id="9_h3hnl"]
+[ext_resource type="PackedScene" path="res://testing/reusable/campsite/campsite.tscn" id="10_qubi7"]
+[ext_resource type="Script" path="res://testing/reusable/campsite/campsite.gd" id="11_lgj1c"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wna8p"]
 sky_top_color = Color(0.38, 0.58, 0.84, 1)
@@ -129,61 +137,6 @@ height = 1.3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_p6amg"]
 radius = 0.65
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6umxw"]
-albedo_color = Color(0.62, 0.64, 0.68, 1)
-roughness = 0.92
-
-[sub_resource type="BoxMesh" id="BoxMesh_m638p"]
-material = SubResource("StandardMaterial3D_6umxw")
-size = Vector3(2.2, 2, 2.2)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_rwdgp"]
-size = Vector3(2.2, 2, 2.2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qrufg"]
-albedo_color = Color(0.58, 0.6, 0.64, 1)
-roughness = 0.92
-
-[sub_resource type="BoxMesh" id="BoxMesh_74j1d"]
-material = SubResource("StandardMaterial3D_qrufg")
-size = Vector3(4, 3.6, 1.6)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ydprc"]
-size = Vector3(4, 3.6, 1.6)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ri33"]
-albedo_color = Color(0.55, 0.57, 0.62, 1)
-roughness = 0.92
-
-[sub_resource type="BoxMesh" id="BoxMesh_lgy8g"]
-material = SubResource("StandardMaterial3D_1ri33")
-size = Vector3(6, 14, 3.2)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_xoo8g"]
-size = Vector3(6, 14, 3.2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdsvi"]
-albedo_color = Color(0.72, 0.74, 0.78, 1)
-roughness = 0.9
-
-[sub_resource type="BoxMesh" id="BoxMesh_0gbu8"]
-material = SubResource("StandardMaterial3D_xdsvi")
-size = Vector3(2.6, 0.4, 2)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_2wucv"]
-size = Vector3(2.6, 0.4, 2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5oi8u"]
-albedo_color = Color(0.25, 0.48, 0.7, 1)
-roughness = 0.12
-
-[sub_resource type="BoxMesh" id="BoxMesh_4m2ls"]
-material = SubResource("StandardMaterial3D_5oi8u")
-size = Vector3(4, 5.2, 1.4)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_qk0f8"]
-size = Vector3(4, 5.2, 1.4)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5v0tm"]
 albedo_color = Color(0.42, 0.3, 0.2, 1)
@@ -349,50 +302,6 @@ mesh = SubResource("SphereMesh_8paro")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Boulder" unique_id=1947521671]
 shape = SubResource("SphereShape3D_p6amg")
 
-[node name="ShortClimb" type="StaticBody3D" parent="." unique_id=1445543739 groups=["climbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1, 8.5)
-
-[node name="Mesh" type="MeshInstance3D" parent="ShortClimb" unique_id=500893036]
-mesh = SubResource("BoxMesh_m638p")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ShortClimb" unique_id=1527520337]
-shape = SubResource("BoxShape3D_rwdgp")
-
-[node name="PracticeWall" type="StaticBody3D" parent="." unique_id=363698552 groups=["climbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 1.8, 4)
-
-[node name="Mesh" type="MeshInstance3D" parent="PracticeWall" unique_id=1624170120]
-mesh = SubResource("BoxMesh_74j1d")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PracticeWall" unique_id=1684277517]
-shape = SubResource("BoxShape3D_ydprc")
-
-[node name="StaminaWall" type="StaticBody3D" parent="." unique_id=438648567 groups=["climbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 7, -6)
-
-[node name="Mesh" type="MeshInstance3D" parent="StaminaWall" unique_id=969831317]
-mesh = SubResource("BoxMesh_lgy8g")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaminaWall" unique_id=1041569703]
-shape = SubResource("BoxShape3D_xoo8g")
-
-[node name="RestLedgeMesh" type="MeshInstance3D" parent="StaminaWall" unique_id=2074859676]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1.05, 2.35)
-mesh = SubResource("BoxMesh_0gbu8")
-
-[node name="RestLedge" type="CollisionShape3D" parent="StaminaWall" unique_id=91235610]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1.05, 2.35)
-shape = SubResource("BoxShape3D_2wucv")
-
-[node name="WetWall" type="StaticBody3D" parent="." unique_id=1021831778 groups=["unclimbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 2.6, -2.5)
-
-[node name="Mesh" type="MeshInstance3D" parent="WetWall" unique_id=1813669724]
-mesh = SubResource("BoxMesh_4m2ls")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WetWall" unique_id=1028627882]
-shape = SubResource("BoxShape3D_qk0f8")
-
 [node name="GateLeft" type="StaticBody3D" parent="." unique_id=1393060828]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 1.4, 10.4)
 
@@ -420,7 +329,7 @@ mesh = SubResource("BoxMesh_cb75o")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GateLintel" unique_id=1827450312]
 shape = SubResource("BoxShape3D_37acl")
 
-[node name="Peak" type="StaticBody3D" parent="." unique_id=146798575 groups=["unclimbable"]]
+[node name="Peak" type="StaticBody3D" parent="." unique_id=146798575]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -30)
 
 [node name="Mesh" type="MeshInstance3D" parent="Peak" unique_id=2108225979]
@@ -475,7 +384,7 @@ pixel_size = 0.0045
 billboard = 1
 modulate = Color(0.96, 0.95, 0.9, 1)
 outline_modulate = Color(0.05, 0.05, 0.07, 1)
-text = "Gray rock  ·  climb"
+text = "Climbable  ·  box"
 font_size = 48
 outline_size = 10
 
@@ -485,7 +394,7 @@ pixel_size = 0.0045
 billboard = 1
 modulate = Color(0.96, 0.95, 0.9, 1)
 outline_modulate = Color(0.05, 0.05, 0.07, 1)
-text = "Wet  ·  no grip"
+text = "Unclimbable"
 font_size = 48
 outline_size = 10
 
@@ -495,7 +404,7 @@ pixel_size = 0.0045
 billboard = 1
 modulate = Color(0.96, 0.95, 0.9, 1)
 outline_modulate = Color(0.05, 0.05, 0.07, 1)
-text = "Long climb  ·  rest on the left"
+text = "Long climb  ·  rest ledge"
 font_size = 48
 outline_size = 10
 
@@ -511,9 +420,11 @@ outline_size = 10
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=765954484 instance=ExtResource("2_gvoav")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 14)
-
-[node name="TrailGuide" type="CharacterBody3D" parent="." unique_id=999196450 instance=ExtResource("4_1h26k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1, 0.25, 12.6)
+collision_layer = 2
+collision_mask = 3
+floor_max_angle = 0.9599311
+floor_snap_length = 0.25
+script = ExtResource("3_ukadv")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1994465109]
 
@@ -537,13 +448,13 @@ theme_override_font_sizes/font_size = 15
 theme_override_colors/font_color = Color(0.95, 0.94, 0.9, 1)
 text = "Little Peak test room
 WASD or left stick: move (camera-relative). Mouse or right stick: look.
-Click to capture the mouse. Esc releases it. F1 hides this text.
+Click to capture the mouse. Esc releases it. Tab (or Start) opens travel and frees the mouse. F1 hides this text.
 Space or A: jump (tap for a short hop, hold for full). Coyote time and a jump buffer are on.
-Jump into gray rock to climb. Space while climbing hops (costs a chunk of stamina). Space while holding back lets go.
-Shift or LB: glide, after the guide gives it to you. Glide spends stamina.
-E or X: talk. The guide is the green figure by the start.
-Stamina drains while climbing, hopping, and gliding. It refills on solid ground. Running and jumping are free.
-Blue is wet and cannot be climbed. The steep ramp slides. The white cone is the peak, not a route."
+Jump into a Climbable (gray) to climb. Space while climbing hops (costs a chunk of stamina). Space while holding back lets go.
+The bird gifts wings. Shift or LB: glide once you have them, while falling. Glide spends stamina.
+E or X: talk to the bird, or roast a marshmallow at a campfire. Roasting unlocks that campsite.
+Stamina drains while climbing, hopping, and gliding. It refills on solid ground and at an unlocked fire. Running and jumping are free.
+Blue is unclimbable. The steep ramp slides. The convex pillar and the concave corner are both climbable."
 autowrap_mode = 3
 
 [node name="Status" type="Label" parent="HUD/Panel/Column" unique_id=871107529]
@@ -551,3 +462,91 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.72, 0.88, 0.7, 1)
 text = "state ..."
+
+[node name="ShortClimb" type="StaticBody3D" parent="." unique_id=810001 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1, 8.5)
+script = ExtResource("5_7qfwa")
+size = Vector3(2.2, 2, 2.2)
+
+[node name="PracticeWall" type="StaticBody3D" parent="." unique_id=621558432 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 1.8, 4)
+script = ExtResource("5_7qfwa")
+size = Vector3(4, 3.6, 1.6)
+
+[node name="StaminaWall" type="StaticBody3D" parent="." unique_id=591360773 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 7, -6)
+script = ExtResource("5_7qfwa")
+size = Vector3(6, 14, 3.2)
+albedo = Color(0.55, 0.57, 0.62, 1)
+
+[node name="RestLedge" type="StaticBody3D" parent="." unique_id=217300502 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 5.95, -3.65)
+script = ExtResource("5_7qfwa")
+size = Vector3(2.6, 0.4, 2)
+albedo = Color(0.72, 0.74, 0.78, 1)
+roughness = 0.9
+
+[node name="ConvexPillar" type="StaticBody3D" parent="." unique_id=396733615 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 1.6, 5.5)
+script = ExtResource("5_7qfwa")
+shape_mode = 1
+primitive = 3
+size = Vector3(0.7, 3.2, 0.7)
+albedo = Color(0.52, 0.54, 0.58, 1)
+roughness = 0.88
+
+[node name="ConcaveCorner" type="StaticBody3D" parent="." unique_id=987462719 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 1.3, 10.5)
+script = ExtResource("5_7qfwa")
+shape_mode = 2
+size = Vector3(2.4, 2.6, 2.4)
+corner_mesh = true
+albedo = Color(0.5, 0.52, 0.56, 1)
+roughness = 0.9
+
+[node name="WetWall" type="StaticBody3D" parent="." unique_id=810002 instance=ExtResource("6_bqm2h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 2.6, -2.5)
+script = ExtResource("7_ybf65")
+size = Vector3(4, 5.2, 1.4)
+albedo = Color(0.25, 0.48, 0.7, 1)
+roughness = 0.12
+
+[node name="WingsBird" type="CharacterBody3D" parent="." unique_id=793709361 instance=ExtResource("8_1bkxj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1, 0, 12.6)
+collision_layer = 2
+script = ExtResource("9_h3hnl")
+
+[node name="Trailhead" type="Node3D" parent="." unique_id=1972325165 instance=ExtResource("10_qubi7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 0, 12.8)
+script = ExtResource("11_lgj1c")
+display_name = "Trailhead"
+
+[node name="Switchback" type="Node3D" parent="." unique_id=2024956887 instance=ExtResource("10_qubi7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -10)
+script = ExtResource("11_lgj1c")
+display_name = "Switchback"
+
+[node name="NorthCamp" type="Node3D" parent="." unique_id=1130177123 instance=ExtResource("10_qubi7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -22)
+script = ExtResource("11_lgj1c")
+display_name = "North Camp"
+
+[node name="LabelConvex" type="Label3D" parent="." unique_id=149169458]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 3.8, 5.5)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Convex  ·  climb"
+font_size = 48
+outline_size = 10
+
+[node name="LabelConcave" type="Label3D" parent="." unique_id=460910409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 3.5, 10.5)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Concave corner  ·  climb"
+font_size = 48
+outline_size = 10
