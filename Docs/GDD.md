@@ -1,4 +1,4 @@
-# Little Peak (codename): Game Design Document (v0.1)
+# Little Peak (codename): Game Design Document (v0.2)
 
 **Status:** First draft, focused on the core loop
 **Engine:** Godot 4.x
@@ -147,7 +147,7 @@ Pick **one** secondary traversal tool for the main game. More can be added later
 | Jump | Free | Start |
 | Climb | Stamina (slow drain) | Start |
 | Climb hop | Stamina (big chunk) | Start |
-| Glide | Stamina (slow drain) | Early unlock (end of Zone 1) |
+| Glide | Stamina (slow drain) | Zone 1, wings gifted by a bird |
 | Long jump | Free | Start (optional depth) |
 
 ---
@@ -181,7 +181,7 @@ The player gets better in two ways: **the character grows** (stamina, abilities)
 
 ### 6.2 Ability Unlocks
 
-- **Glide:** Unlocked by the end of Zone 1 (given by a character or found at a shrine).
+- **Glide:** **[Decided]** Unlocked in Zone 1. A bird (the Wings NPC) gifts the player wings, which they use to glide. See 8.1.
 - **Grip upgrade:** Climb wet surfaces (opens waterfall routes).
 - **Crampons/ice axe:** Climb ice (needed for the summit zone).
 - Unlocks should come from **people and places on the mountain**, not menus, so each one feels like a small story moment.
@@ -221,7 +221,7 @@ One continuous mountain, built as a single world with streaming or careful occlu
 
 | Zone | Altitude | Look & Feel | Traversal Focus | Wildlife / Landmarks |
 |---|---|---|---|---|
-| **1. The Foothills** | Base | Meadows, a small village or trailhead, gentle slopes | Learn running, jumping, short climbs | Deer, rabbits, a friendly trail guide. Glide unlocked at the end. |
+| **1. The Foothills** | Base | Meadows, a small village or trailhead, gentle slopes | Learn running, jumping, short climbs | Deer, rabbits, the Wings NPC bird. Tutorial zone. Glide unlocked here (see 8.1). |
 | **2. The Forest** | Low | Tall pines, streams, mossy boulders | Climbing trees and rocks, first stamina tests | Birds, foxes, a big old tree to climb |
 | **3. The Falls** | Mid | Waterfalls, gorges, mist, rope bridges | Wet surfaces, updrafts for gliding, river routes | Otters, herons. Grip upgrade found here. |
 | **4. The Cliffs** | Upper-mid | Bare rock faces, narrow ledges, big views | Long climbs, stamina planning, climb-hop routes | Mountain goats (who show safe routes), eagles |
@@ -234,9 +234,29 @@ One continuous mountain, built as a single world with streaming or careful occlu
 - **Multiple paths** between zones: an easier main trail and harder, faster shortcuts.
 - **Landmarks** visible from far away (a giant tree, a big waterfall, a cabin with smoke) help players navigate without a map.
 - **Shortcuts back down** (zip lines, glide launch points, slides) make returning to lower zones quick.
-- **Campsites** at least once per zone, plus a few hidden ones.
+- **Campsites** at least once per zone, plus a few hidden ones. See 8.2 for how they unlock.
 
-**Map option:** No map, with landmarks and a simple compass **[Recommended]**, or a hand-drawn map the player fills in. Decide after the first playable zone.
+### 8.1 Zone 1: The Foothills (Tutorial) **[Decided]**
+
+The Foothills are a tutorial area where the player practices the controls before entering Zone 2. The full area isn't designed yet; this lists the features Zone 1 introduces.
+
+| Feature | How it's introduced |
+|---|---|
+| Running and camera | Open meadow paths with gentle slopes |
+| Jumping | Small gaps and low ledges, safe to miss |
+| Climbing and stamina | Short Climbable rock faces, plus Unclimbable surfaces so the player learns to read which is which |
+| Glide | A bird (the Wings NPC) gifts the player wings; nearby drops let them try gliding right away |
+| Campsites | The first campfire, where the player learns to roast a marshmallow to unlock it (see 8.2) |
+
+The player should leave Zone 1 able to run, jump, climb, glide, and use campsites.
+
+### 8.2 Campsites **[Decided]**
+
+- **Unlocking:** The player walks up to a campsite's campfire and presses **E** to roast a marshmallow. That unlocks the campsite.
+- **Fast travel:** Unlocked campsites can be selected on a map to teleport there. The map isn't designed yet.
+- **Testing:** In the test scene, unlocked campsites get teleport buttons in place of the map.
+
+**Map option:** A map exists at least for campsite fast travel (8.2). Whether it also shows the world (a hand-drawn map the player fills in) or stays minimal, with landmarks and a compass for navigation, is still open. Decide after the first playable zone.
 
 ---
 
@@ -288,3 +308,17 @@ The summit should be quiet and personal, not a boss fight.
 ---
 
 *Next revision: lock the player character and climbing model, then define theme and the first gimmick layer.*
+
+---
+
+## 12. Reusable Scenes
+
+Building blocks to make once in the test scene and reuse across the game.
+
+| Scene | Purpose |
+|---|---|
+| **Player** | The player character and its full moveset (section 4) |
+| **Climbable** | A collision shape the player can climb. It can be set to a concave, convex, or primitive shape. |
+| **Unclimbable** | A collision shape the player can't climb. It can be set to a concave, convex, or primitive shape. |
+| **Wings NPC** | The bird in Zone 1 that gives the player wings for gliding |
+| **Campsite** | A campfire where pressing E roasts a marshmallow and unlocks the campsite for fast travel (8.2) |
