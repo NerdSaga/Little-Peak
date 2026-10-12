@@ -1,0 +1,552 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://testing/test_room.gd" id="1_grgw8"]
+[ext_resource type="PackedScene" path="res://testing/reusable/player/player.tscn" id="2_gvoav"]
+[ext_resource type="Script" path="res://testing/reusable/player/player.gd" id="3_ukadv"]
+[ext_resource type="PackedScene" path="res://testing/reusable/climbable/climbable.tscn" id="4_qchy6"]
+[ext_resource type="Script" path="res://testing/reusable/climbable/climbable.gd" id="5_7qfwa"]
+[ext_resource type="PackedScene" path="res://testing/reusable/unclimbable/unclimbable.tscn" id="6_bqm2h"]
+[ext_resource type="Script" path="res://testing/reusable/unclimbable/unclimbable.gd" id="7_ybf65"]
+[ext_resource type="PackedScene" path="res://testing/reusable/wings_bird/wings_bird.tscn" id="8_1bkxj"]
+[ext_resource type="Script" path="res://testing/reusable/wings_bird/wings_bird.gd" id="9_h3hnl"]
+[ext_resource type="PackedScene" path="res://testing/reusable/campsite/campsite.tscn" id="10_qubi7"]
+[ext_resource type="Script" path="res://testing/reusable/campsite/campsite.gd" id="11_lgj1c"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wna8p"]
+sky_top_color = Color(0.38, 0.58, 0.84, 1)
+sky_horizon_color = Color(0.74, 0.8, 0.74, 1)
+ground_bottom_color = Color(0.28, 0.34, 0.26, 1)
+ground_horizon_color = Color(0.5, 0.55, 0.46, 1)
+
+[sub_resource type="Sky" id="Sky_ukadv"]
+sky_material = SubResource("ProceduralSkyMaterial_wna8p")
+
+[sub_resource type="Environment" id="Environment_qchy6"]
+background_mode = 2
+sky = SubResource("Sky_ukadv")
+ambient_light_source = 3
+ambient_light_energy = 1.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7qfwa"]
+albedo_color = Color(0.4, 0.56, 0.32, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_bqm2h"]
+material = SubResource("StandardMaterial3D_7qfwa")
+size = Vector3(80, 1, 80)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ybf65"]
+size = Vector3(80, 1, 80)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bkxj"]
+albedo_color = Color(0.55, 0.42, 0.28, 1)
+roughness = 0.86
+
+[sub_resource type="BoxMesh" id="BoxMesh_h3hnl"]
+material = SubResource("StandardMaterial3D_1bkxj")
+size = Vector3(6, 0.45, 12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qubi7"]
+size = Vector3(6, 0.45, 12)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lgj1c"]
+albedo_color = Color(0.42, 0.38, 0.34, 1)
+roughness = 0.86
+
+[sub_resource type="BoxMesh" id="BoxMesh_6ss4p"]
+material = SubResource("StandardMaterial3D_lgj1c")
+size = Vector3(6, 0.5, 9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t5p21"]
+size = Vector3(6, 0.5, 9)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ck20l"]
+albedo_color = Color(0.62, 0.48, 0.32, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="BoxMesh_bw21h"]
+material = SubResource("StandardMaterial3D_ck20l")
+size = Vector3(2.2, 0.6, 2.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_65v40"]
+size = Vector3(2.2, 0.6, 2.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ccit7"]
+albedo_color = Color(0.58, 0.44, 0.3, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="BoxMesh_653m4"]
+material = SubResource("StandardMaterial3D_ccit7")
+size = Vector3(2.2, 1.4, 2.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tpcub"]
+size = Vector3(2.2, 1.4, 2.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jsvid"]
+albedo_color = Color(0.52, 0.4, 0.28, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="BoxMesh_i1bm1"]
+material = SubResource("StandardMaterial3D_jsvid")
+size = Vector3(2.2, 2.4, 2.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_me18c"]
+size = Vector3(2.2, 2.4, 2.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ghr3"]
+albedo_color = Color(0.64, 0.5, 0.34, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="BoxMesh_rg3t0"]
+material = SubResource("StandardMaterial3D_3ghr3")
+size = Vector3(2.2, 1.1, 2.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ewjyn"]
+size = Vector3(2.2, 1.1, 2.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f4xay"]
+albedo_color = Color(0.62, 0.4, 0.24, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_h8yx1"]
+material = SubResource("StandardMaterial3D_f4xay")
+size = Vector3(1.1, 1.1, 1.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pdier"]
+size = Vector3(1.1, 1.1, 1.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gybms"]
+albedo_color = Color(0.48, 0.46, 0.42, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="BoxMesh_vw3hv"]
+material = SubResource("StandardMaterial3D_gybms")
+size = Vector3(1.6, 0.7, 1.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qg3hq"]
+size = Vector3(1.6, 0.7, 1.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdkm3"]
+albedo_color = Color(0.45, 0.43, 0.4, 1)
+roughness = 0.9
+
+[sub_resource type="SphereMesh" id="SphereMesh_8paro"]
+material = SubResource("StandardMaterial3D_xdkm3")
+radius = 0.65
+height = 1.3
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_p6amg"]
+radius = 0.65
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5v0tm"]
+albedo_color = Color(0.42, 0.3, 0.2, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_d0j0h"]
+material = SubResource("StandardMaterial3D_5v0tm")
+size = Vector3(0.4, 2.8, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lcemu"]
+size = Vector3(0.4, 2.8, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5nqw5"]
+albedo_color = Color(0.42, 0.3, 0.2, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_t45yk"]
+material = SubResource("StandardMaterial3D_5nqw5")
+size = Vector3(0.4, 2.8, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0iur2"]
+size = Vector3(0.4, 2.8, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g8q6u"]
+albedo_color = Color(0.42, 0.3, 0.2, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_cb75o"]
+material = SubResource("StandardMaterial3D_g8q6u")
+size = Vector3(3.1, 0.35, 0.45)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_37acl"]
+size = Vector3(3.1, 0.35, 0.45)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a6gpx"]
+albedo_color = Color(0.94, 0.95, 0.97, 1)
+roughness = 0.72
+emission_enabled = true
+emission = Color(0.85, 0.9, 1, 1)
+emission_energy_multiplier = 0.22
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_flqwh"]
+material = SubResource("StandardMaterial3D_a6gpx")
+top_radius = 0.0
+bottom_radius = 8.0
+height = 18.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_mkulu"]
+height = 18.0
+radius = 5.76
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kulbx"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.07, 0.08, 0.09, 0.78)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="TestRoom" type="Node3D" unique_id=1802650413]
+script = ExtResource("1_grgw8")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=199384749]
+environment = SubResource("Environment_qchy6")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1755585754]
+transform = Transform3D(0.8480481, 0.3938068, -0.35458517, 0, 0.66913056, 0.74314487, 0.52991927, -0.63022256, 0.5674549, 0, 0, 0)
+light_color = Color(1, 0.97, 0.92, 1)
+light_energy = 1.2
+shadow_enabled = true
+directional_shadow_max_distance = 70.0
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=1816752767]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Ground" unique_id=944744196]
+mesh = SubResource("BoxMesh_bqm2h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=2003274440]
+shape = SubResource("BoxShape3D_ybf65")
+
+[node name="GentleSlope" type="StaticBody3D" parent="." unique_id=852992021]
+transform = Transform3D(1, 0, 0, 0, 0.95105654, -0.309017, 0, 0.309017, 0.95105654, 0, 1.6401143, 2)
+
+[node name="Mesh" type="MeshInstance3D" parent="GentleSlope" unique_id=946822178]
+mesh = SubResource("BoxMesh_h3hnl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GentleSlope" unique_id=1576928332]
+shape = SubResource("BoxShape3D_qubi7")
+
+[node name="SteepSlide" type="StaticBody3D" parent="." unique_id=431011311]
+transform = Transform3D(1, 0, 0, 0, 0.7431448, -0.6691306, 0, 0.6691306, 0.7431448, 0, 2.8253014, -15)
+
+[node name="Mesh" type="MeshInstance3D" parent="SteepSlide" unique_id=1104440197]
+mesh = SubResource("BoxMesh_6ss4p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SteepSlide" unique_id=1108874231]
+shape = SubResource("BoxShape3D_t5p21")
+
+[node name="StepLow" type="StaticBody3D" parent="." unique_id=1318087478]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.3, 6)
+
+[node name="Mesh" type="MeshInstance3D" parent="StepLow" unique_id=848463646]
+mesh = SubResource("BoxMesh_bw21h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StepLow" unique_id=2100090160]
+shape = SubResource("BoxShape3D_65v40")
+
+[node name="StepMid" type="StaticBody3D" parent="." unique_id=726032880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.7, 2.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="StepMid" unique_id=1053681071]
+mesh = SubResource("BoxMesh_653m4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StepMid" unique_id=1225757074]
+shape = SubResource("BoxShape3D_tpcub")
+
+[node name="StepHigh" type="StaticBody3D" parent="." unique_id=1851529113]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.2, -1.6)
+
+[node name="Mesh" type="MeshInstance3D" parent="StepHigh" unique_id=825232215]
+mesh = SubResource("BoxMesh_i1bm1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StepHigh" unique_id=265758038]
+shape = SubResource("BoxShape3D_me18c")
+
+[node name="StepSide" type="StaticBody3D" parent="." unique_id=1932117716]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0.55, -1.6)
+
+[node name="Mesh" type="MeshInstance3D" parent="StepSide" unique_id=277346945]
+mesh = SubResource("BoxMesh_rg3t0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StepSide" unique_id=1862621314]
+shape = SubResource("BoxShape3D_ewjyn")
+
+[node name="Crate" type="StaticBody3D" parent="." unique_id=925877580]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0.55, 8)
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate" unique_id=189117152]
+mesh = SubResource("BoxMesh_h8yx1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Crate" unique_id=570296623]
+shape = SubResource("BoxShape3D_pdier")
+
+[node name="LowRock" type="StaticBody3D" parent="." unique_id=314729267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 0.35, 4.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="LowRock" unique_id=911172239]
+mesh = SubResource("BoxMesh_vw3hv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LowRock" unique_id=726673557]
+shape = SubResource("BoxShape3D_qg3hq")
+
+[node name="Boulder" type="StaticBody3D" parent="." unique_id=1668004332]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 0.65, 1.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Boulder" unique_id=2048948382]
+mesh = SubResource("SphereMesh_8paro")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Boulder" unique_id=1947521671]
+shape = SubResource("SphereShape3D_p6amg")
+
+[node name="GateLeft" type="StaticBody3D" parent="." unique_id=1393060828]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 1.4, 10.4)
+
+[node name="Mesh" type="MeshInstance3D" parent="GateLeft" unique_id=99357350]
+mesh = SubResource("BoxMesh_d0j0h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GateLeft" unique_id=2050395065]
+shape = SubResource("BoxShape3D_lcemu")
+
+[node name="GateRight" type="StaticBody3D" parent="." unique_id=870093547]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 1.4, 10.4)
+
+[node name="Mesh" type="MeshInstance3D" parent="GateRight" unique_id=523503011]
+mesh = SubResource("BoxMesh_t45yk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GateRight" unique_id=1666955049]
+shape = SubResource("BoxShape3D_0iur2")
+
+[node name="GateLintel" type="StaticBody3D" parent="." unique_id=1115430058]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.95, 10.4)
+
+[node name="Mesh" type="MeshInstance3D" parent="GateLintel" unique_id=62038355]
+mesh = SubResource("BoxMesh_cb75o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GateLintel" unique_id=1827450312]
+shape = SubResource("BoxShape3D_37acl")
+
+[node name="Peak" type="StaticBody3D" parent="." unique_id=146798575]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -30)
+
+[node name="Mesh" type="MeshInstance3D" parent="Peak" unique_id=2108225979]
+mesh = SubResource("CylinderMesh_flqwh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Peak" unique_id=1054208547]
+shape = SubResource("CylinderShape3D_mkulu")
+
+[node name="LabelStart" type="Label3D" parent="." unique_id=1511655449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 14)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Start"
+font_size = 48
+outline_size = 10
+
+[node name="LabelSlope" type="Label3D" parent="." unique_id=1644283599]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2, 2.4, 4.5)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Gentle slope"
+font_size = 48
+outline_size = 10
+
+[node name="LabelSlide" type="Label3D" parent="." unique_id=847864865]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 3.2, -12)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Steep  ·  slides"
+font_size = 48
+outline_size = 10
+
+[node name="LabelJump" type="Label3D" parent="." unique_id=1685293352]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3.6, 6)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Jumps"
+font_size = 48
+outline_size = 10
+
+[node name="LabelClimb" type="Label3D" parent="." unique_id=205666613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 4.4, 4)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Climbable  ·  box"
+font_size = 48
+outline_size = 10
+
+[node name="LabelWet" type="Label3D" parent="." unique_id=70504255]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 5.8, -2.5)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Unclimbable"
+font_size = 48
+outline_size = 10
+
+[node name="LabelWall" type="Label3D" parent="." unique_id=1900196133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 8.5, -2.6)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Long climb  ·  rest ledge"
+font_size = 48
+outline_size = 10
+
+[node name="LabelPeak" type="Label3D" parent="." unique_id=1231487517]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19.4, -30)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Peak"
+font_size = 48
+outline_size = 10
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=765954484 instance=ExtResource("2_gvoav")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 14)
+collision_layer = 2
+collision_mask = 3
+floor_max_angle = 0.9599311
+floor_snap_length = 0.25
+script = ExtResource("3_ukadv")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1994465109]
+
+[node name="Panel" type="PanelContainer" parent="HUD" unique_id=1975144359]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 596.0
+offset_bottom = 420.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kulbx")
+
+[node name="Column" type="VBoxContainer" parent="HUD/Panel" unique_id=1304225239]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Help" type="Label" parent="HUD/Panel/Column" unique_id=804411718]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.95, 0.94, 0.9, 1)
+text = "Little Peak test room
+WASD or left stick: move (camera-relative). Mouse or right stick: look.
+Click to capture the mouse. Esc releases it. Tab (or Start) opens travel and frees the mouse. F1 hides this text.
+Space or A: jump (tap for a short hop, hold for full). Coyote time and a jump buffer are on.
+Jump into a Climbable (gray) to climb. Space while climbing hops (costs a chunk of stamina). Space while holding back lets go.
+The bird gifts wings. Shift or LB: glide once you have them, while falling. Glide spends stamina.
+E or X: talk to the bird, or roast a marshmallow at a campfire. Roasting unlocks that campsite.
+Stamina drains while climbing, hopping, and gliding. It refills on solid ground and at an unlocked fire. Running and jumping are free.
+Blue is unclimbable. The steep ramp slides. The convex pillar and the concave corner are both climbable."
+autowrap_mode = 3
+
+[node name="Status" type="Label" parent="HUD/Panel/Column" unique_id=871107529]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.72, 0.88, 0.7, 1)
+text = "state ..."
+
+[node name="ShortClimb" type="StaticBody3D" parent="." unique_id=810001 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1, 8.5)
+script = ExtResource("5_7qfwa")
+size = Vector3(2.2, 2, 2.2)
+
+[node name="PracticeWall" type="StaticBody3D" parent="." unique_id=621558432 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 1.8, 4)
+script = ExtResource("5_7qfwa")
+size = Vector3(4, 3.6, 1.6)
+
+[node name="StaminaWall" type="StaticBody3D" parent="." unique_id=591360773 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 7, -6)
+script = ExtResource("5_7qfwa")
+size = Vector3(6, 14, 3.2)
+albedo = Color(0.55, 0.57, 0.62, 1)
+
+[node name="RestLedge" type="StaticBody3D" parent="." unique_id=217300502 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 5.95, -3.65)
+script = ExtResource("5_7qfwa")
+size = Vector3(2.6, 0.4, 2)
+albedo = Color(0.72, 0.74, 0.78, 1)
+roughness = 0.9
+
+[node name="ConvexPillar" type="StaticBody3D" parent="." unique_id=396733615 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 1.6, 5.5)
+script = ExtResource("5_7qfwa")
+shape_mode = 1
+primitive = 3
+size = Vector3(0.7, 3.2, 0.7)
+albedo = Color(0.52, 0.54, 0.58, 1)
+roughness = 0.88
+
+[node name="ConcaveCorner" type="StaticBody3D" parent="." unique_id=987462719 instance=ExtResource("4_qchy6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 1.3, 10.5)
+script = ExtResource("5_7qfwa")
+shape_mode = 2
+size = Vector3(2.4, 2.6, 2.4)
+corner_mesh = true
+albedo = Color(0.5, 0.52, 0.56, 1)
+roughness = 0.9
+
+[node name="WetWall" type="StaticBody3D" parent="." unique_id=810002 instance=ExtResource("6_bqm2h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 2.6, -2.5)
+script = ExtResource("7_ybf65")
+size = Vector3(4, 5.2, 1.4)
+albedo = Color(0.25, 0.48, 0.7, 1)
+roughness = 0.12
+
+[node name="WingsBird" type="CharacterBody3D" parent="." unique_id=793709361 instance=ExtResource("8_1bkxj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1, 0, 12.6)
+collision_layer = 2
+script = ExtResource("9_h3hnl")
+
+[node name="Trailhead" type="Node3D" parent="." unique_id=1972325165 instance=ExtResource("10_qubi7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 0, 12.8)
+script = ExtResource("11_lgj1c")
+display_name = "Trailhead"
+
+[node name="Switchback" type="Node3D" parent="." unique_id=2024956887 instance=ExtResource("10_qubi7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -10)
+script = ExtResource("11_lgj1c")
+display_name = "Switchback"
+
+[node name="NorthCamp" type="Node3D" parent="." unique_id=1130177123 instance=ExtResource("10_qubi7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -22)
+script = ExtResource("11_lgj1c")
+display_name = "North Camp"
+
+[node name="LabelConvex" type="Label3D" parent="." unique_id=149169458]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 3.8, 5.5)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Convex  ·  climb"
+font_size = 48
+outline_size = 10
+
+[node name="LabelConcave" type="Label3D" parent="." unique_id=460910409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 3.5, 10.5)
+pixel_size = 0.0045
+billboard = 1
+modulate = Color(0.96, 0.95, 0.9, 1)
+outline_modulate = Color(0.05, 0.05, 0.07, 1)
+text = "Concave corner  ·  climb"
+font_size = 48
+outline_size = 10
